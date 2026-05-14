@@ -413,15 +413,133 @@
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* RESPONSIVE */
-  @media(max-width: 900px) {
-    .about-grid, .catering-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .about-float { bottom: -10px; right: 0; }
+  /* =============================================
+     RESPONSIVE — Mobile · Tablet · Laptop · Desktop
+     ============================================= */
+
+  /* DESKTOP WIDE (1280px+) */
+  @media(min-width: 1280px) {
+    section { padding: 110px 8%; }
+    .about-grid, .catering-grid, .contact-grid { max-width: 1200px; margin: 0 auto; }
+    .menu-panel.active { grid-template-columns: repeat(3, 1fr); }
+    .reviews-grid { grid-template-columns: repeat(3, 1fr); }
   }
-  @media(max-width: 600px) {
-    section { padding: 70px 5%; }
+
+  /* LAPTOP (1024px – 1279px) */
+  @media(min-width: 1024px) and (max-width: 1279px) {
+    section { padding: 100px 6%; }
+    .about-grid, .catering-grid, .contact-grid { gap: 3rem; }
+    .menu-panel.active { grid-template-columns: repeat(2, 1fr); }
+    .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* TABLET LANDSCAPE (768px – 1023px) */
+  @media(min-width: 768px) and (max-width: 1023px) {
+    section { padding: 80px 5%; }
+    nav { padding: 0 4%; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; max-width: 680px; margin: 0 auto; }
+    .catering-grid { grid-template-columns: 1fr; gap: 3rem; max-width: 680px; margin: 0 auto; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; max-width: 680px; margin: 0 auto; }
+    .about-img-box { aspect-ratio: 16/7; font-size: 6rem; }
+    .about-float { bottom: -14px; right: 10px; }
+    .menu-panel.active { grid-template-columns: repeat(2, 1fr); }
+    .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+    #home { padding: 130px 6% 90px; }
+    .hamburger { display: none; }
+    .nav-links {
+      position: static; flex-direction: row;
+      background: none; padding: 0; gap: 1.4rem;
+      transform: none; opacity: 1; pointer-events: all;
+    }
+    .nav-links a { font-size: 0.8rem; }
+  }
+
+  /* TABLET PORTRAIT (600px – 767px) */
+  @media(min-width: 600px) and (max-width: 767px) {
+    section { padding: 80px 5%; }
+    .hamburger { display: flex; }
+    .nav-links {
+      position: fixed; top: 70px; left: 0; right: 0;
+      background: rgba(10,10,10,0.98);
+      flex-direction: column; align-items: center;
+      padding: 2rem 0; gap: 1.5rem;
+      transform: translateY(-120%); opacity: 0;
+      transition: all 0.4s ease; pointer-events: none;
+    }
+    .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .about-grid, .catering-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-img-box { aspect-ratio: 4/3; font-size: 5rem; }
+    .about-float { bottom: -10px; right: 0; }
+    .menu-panel.active { grid-template-columns: repeat(2, 1fr); }
+    .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-row { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    #home { padding: 120px 6% 80px; }
+    .hero-btns { flex-direction: column; align-items: center; }
+    .btn-gold, .btn-outline { width: 100%; max-width: 280px; text-align: center; }
+  }
+
+  /* MOBILE (max 599px) */
+  @media(max-width: 599px) {
+    section { padding: 70px 4%; }
+    .hamburger { display: flex; }
+    .nav-links {
+      position: fixed; top: 70px; left: 0; right: 0;
+      background: rgba(10,10,10,0.98);
+      flex-direction: column; align-items: center;
+      padding: 2rem 0; gap: 1.5rem;
+      transform: translateY(-120%); opacity: 0;
+      transition: all 0.4s ease; pointer-events: none;
+    }
+    .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .nav-links a { font-size: 1.05rem; }
+    .nav-logo { font-size: 1.5rem; }
+    #home { padding: 110px 5% 80px; }
+    .hero-badge { font-size: 0.65rem; letter-spacing: 1.5px; padding: 5px 14px; }
+    .hero-desc { font-size: 0.95rem; }
+    .hero-btns { flex-direction: column; align-items: center; gap: 0.75rem; }
+    .btn-gold, .btn-outline { width: 100%; max-width: 260px; text-align: center; padding: 13px 20px; }
+    .hero-scroll { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-img-box { font-size: 4.5rem; aspect-ratio: 4/3; border-radius: 20px; }
+    .about-float { bottom: -12px; right: 4px; padding: 12px 14px; }
+    .about-float .num { font-size: 1.5rem; }
+    .about-float .txt { font-size: 0.6rem; }
+    .about-text p { font-size: 0.95rem; }
+    .pill { padding: 6px 14px; font-size: 0.78rem; }
+    .menu-tabs { gap: 0.5rem; }
+    .tab { padding: 8px 16px; font-size: 0.8rem; }
+    .menu-panel.active { grid-template-columns: 1fr; }
+    .menu-card-top { font-size: 2.8rem; padding: 1.5rem; }
+    .menu-card-body h3 { font-size: 1rem; }
+    .catering-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .catering-form-card { padding: 1.5rem; border-radius: 18px; }
     .form-row { grid-template-columns: 1fr; }
-    .about-img-box { font-size: 5rem; }
+    .feat { padding: 1rem; }
+    .feat-icon { font-size: 1.5rem; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .review-card { padding: 1.5rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-form { padding: 1.5rem; border-radius: 18px; }
+    .social-links { gap: 0.6rem; }
+    .social-link { padding: 8px 14px; font-size: 0.8rem; }
+    footer { padding: 2.5rem 4%; }
+    .footer-logo { font-size: 2rem; }
+    .footer-nav { gap: 1rem; }
+    .footer-nav a { font-size: 0.8rem; }
+    .section-title { font-size: clamp(2rem, 8vw, 3rem); }
+    .truck-banner { font-size: 0.75rem; padding: 10px 4%; }
+  }
+
+  /* VERY SMALL MOBILE (max 380px) */
+  @media(max-width: 380px) {
+    section { padding: 65px 4%; }
+    .nav-logo { font-size: 1.3rem; }
+    .hero-badge { display: none; }
+    .section-title { font-size: clamp(1.8rem, 9vw, 2.5rem); }
+    .btn-gold, .btn-outline { max-width: 100%; }
+    .about-img-box { font-size: 3.5rem; }
+    .menu-card-top { font-size: 2.2rem; }
+    .catering-form-card, .contact-form { padding: 1.2rem; }
   }
 
   /* TRUCK TRACKER BANNER */
