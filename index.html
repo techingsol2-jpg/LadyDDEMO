@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LadyD's – With a Taste of Love</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Dancing+Script:wght@700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-dark: #A07830;
+    --purple: #9B5FC0;
+    --purple-light: #C48FE8;
+    --purple-dark: #6B3590;
+    --blush: #F3E8FF;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --white: #FFFFFF;
+    --text-light: #F5F0FF;
+    --shadow-gold: 0 0 40px rgba(201,168,76,0.3);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--dark);
+    color: var(--text-light);
+    overflow-x: hidden;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 70px;
+  }
+  .nav-logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--purple-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-light); text-decoration: none;
+    font-size: 0.9rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    position: relative; transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold); border-radius: 2px; transition: all 0.3s; }
+
+  /* MOBILE NAV */
+  @media(max-width:768px) {
+    .hamburger { display: flex; }
+    .nav-links {
+      position: fixed; top: 70px; left: 0; right: 0;
+      background: rgba(10,10,10,0.98);
+      flex-direction: column; align-items: center;
+      padding: 2rem 0; gap: 1.5rem;
+      transform: translateY(-120%); opacity: 0;
+      transition: all 0.4s ease; pointer-events: none;
+    }
+    .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .nav-links a { font-size: 1.1rem; }
+  }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 30% 50%, rgba(155,95,192,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.12) 0%, transparent 60%),
+                var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 5% 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute; font-family: 'Dancing Script', cursive;
+    font-size: clamp(8rem, 20vw, 18rem); font-weight: 700;
+    color: rgba(201,168,76,0.04); letter-spacing: -0.05em;
+    pointer-events: none; user-select: none; white-space: nowrap;
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold); font-size: 0.75rem; letter-spacing: 3px;
+    text-transform: uppercase; padding: 6px 18px; border-radius: 50px;
+    margin-bottom: 1.5rem;
+    animation: fadeDown 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, var(--purple-light) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    animation: fadeDown 0.8s 0.15s ease both;
+  }
+  .hero-sub {
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem;
+    animation: fadeDown 0.8s 0.3s ease both;
+  }
+  .hero-desc {
+    max-width: 520px; margin: 0 auto 2.5rem;
+    font-size: 1.05rem; color: rgba(245,240,255,0.7); line-height: 1.8;
+    animation: fadeDown 0.8s 0.45s ease both;
+  }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeDown 0.8s 0.6s ease both; }
+  .btn-gold {
+    display: inline-block; padding: 14px 36px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black); font-weight: 700; border-radius: 50px;
+    text-decoration: none; font-size: 0.95rem; letter-spacing: 1px;
+    transition: all 0.3s; border: none; cursor: pointer;
+    box-shadow: 0 6px 30px rgba(201,168,76,0.4);
+  }
+  .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(201,168,76,0.6); }
+  .btn-outline {
+    display: inline-block; padding: 13px 36px;
+    border: 2px solid var(--purple-light); color: var(--purple-light);
+    border-radius: 50px; text-decoration: none; font-weight: 700;
+    font-size: 0.95rem; letter-spacing: 1px;
+    transition: all 0.3s; background: transparent;
+  }
+  .btn-outline:hover { background: var(--purple); color: #fff; transform: translateY(-3px); }
+  .hero-scroll {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: rgba(201,168,76,0.6); font-size: 0.7rem; letter-spacing: 2px;
+    text-transform: uppercase; animation: bounce 2s infinite;
+  }
+  .hero-scroll::after {
+    content: ''; width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .sparkle {
+    position: absolute; pointer-events: none;
+    animation: sparkle 3s infinite;
+  }
+  .sparkle::before, .sparkle::after {
+    content: '✦'; font-size: 1rem; color: var(--gold);
+    opacity: 0.5; position: absolute;
+  }
+  .sparkle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+  .sparkle:nth-child(2) { top: 60%; left: 85%; animation-delay: 1s; }
+  .sparkle:nth-child(3) { top: 80%; left: 15%; animation-delay: 2s; }
+
+  /* SECTIONS */
+  section { padding: 100px 5%; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem; line-height: 1.1;
+  }
+  .section-divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(to right, var(--gold), var(--purple));
+    border-radius: 2px; margin-bottom: 2rem;
+  }
+
+  /* ABOUT */
+  #about { background: var(--dark2); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center; max-width: 1100px; margin: 0 auto;
+  }
+  .about-image-wrap {
+    position: relative;
+  }
+  .about-img-box {
+    width: 100%; aspect-ratio: 1;
+    background: linear-gradient(135deg, rgba(155,95,192,0.2), rgba(201,168,76,0.15));
+    border-radius: 30px;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8rem;
+    position: relative; overflow: hidden;
+  }
+  .about-img-box::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.08), transparent);
+  }
+  .about-float {
+    position: absolute; bottom: -20px; right: -20px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black); border-radius: 20px; padding: 16px 20px;
+    text-align: center; font-weight: 700;
+  }
+  .about-float .num { font-size: 2rem; display: block; }
+  .about-float .txt { font-size: 0.7rem; letter-spacing: 2px; }
+  .about-text p { color: rgba(245,240,255,0.75); line-height: 1.9; margin-bottom: 1.2rem; font-size: 1.05rem; }
+  .about-pills { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+  .pill {
+    padding: 8px 20px; border-radius: 50px;
+    border: 1px solid rgba(201,168,76,0.3);
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--gold-light); letter-spacing: 0.5px;
+    background: rgba(201,168,76,0.05);
+  }
+
+  /* MENU */
+  #menu { background: var(--dark); }
+  .menu-header { text-align: center; max-width: 600px; margin: 0 auto 3.5rem; }
+  .menu-header .section-divider { margin: 0 auto 2rem; }
+  .menu-tabs { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-bottom: 3rem; }
+  .tab {
+    padding: 10px 24px; border-radius: 50px; border: none; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.9rem;
+    letter-spacing: 0.5px; transition: all 0.3s;
+    background: rgba(201,168,76,0.07); color: rgba(245,240,255,0.6);
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .tab.active, .tab:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--black); border-color: transparent;
+  }
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .menu-card {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 20px; overflow: hidden;
+    transition: all 0.35s; position: relative;
+  }
+  .menu-card:hover { transform: translateY(-6px); border-color: rgba(201,168,76,0.4); box-shadow: 0 20px 50px rgba(201,168,76,0.1); }
+  .menu-card-top {
+    padding: 2rem; text-align: center;
+    background: linear-gradient(135deg, rgba(155,95,192,0.08), rgba(201,168,76,0.06));
+    font-size: 3.5rem;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .menu-card-body { padding: 1.5rem; }
+  .menu-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--gold-light); }
+  .menu-card-body p { font-size: 0.85rem; color: rgba(245,240,255,0.55); line-height: 1.7; margin-bottom: 1rem; }
+  .menu-price {
+    font-weight: 700; font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--gold-light), var(--purple-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .menu-badge {
+    position: absolute; top: 14px; right: 14px;
+    background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+    color: #fff; font-size: 0.65rem; letter-spacing: 1px;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 50px;
+    font-weight: 700;
+  }
+  .menu-panel { display: none; }
+  .menu-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+
+  /* CATERING */
+  #catering {
+    background: linear-gradient(135deg, rgba(155,95,192,0.08) 0%, rgba(10,10,10,0) 50%, rgba(201,168,76,0.06) 100%), var(--dark2);
+  }
+  .catering-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+  .catering-features { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .feat {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.25rem; background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.12); border-radius: 16px;
+    transition: all 0.3s;
+  }
+  .feat:hover { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.08); }
+  .feat-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .feat-text h4 { font-size: 0.95rem; font-weight: 700; color: var(--gold-light); margin-bottom: 0.25rem; }
+  .feat-text p { font-size: 0.85rem; color: rgba(245,240,255,0.55); line-height: 1.6; }
+  .catering-form-card {
+    background: var(--dark2); border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 24px; padding: 2.5rem;
+  }
+  .catering-form-card h3 {
+    font-family: 'Dancing Script', cursive; font-size: 2rem;
+    color: var(--gold-light); margin-bottom: 1.5rem;
+  }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label { display: block; font-size: 0.8rem; letter-spacing: 1px; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2); border-radius: 10px;
+    padding: 12px 16px; color: var(--text-light); font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem; transition: border-color 0.3s; outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-group select option { background: var(--dark2); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* REVIEWS */
+  #reviews { background: var(--dark); text-align: center; }
+  .reviews-header { max-width: 600px; margin: 0 auto 3.5rem; }
+  .reviews-header .section-divider { margin: 0 auto 2rem; }
+  .stars { color: var(--gold); font-size: 1.2rem; margin-bottom: 1rem; letter-spacing: 4px; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .review-card {
+    background: var(--dark2); border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 20px; padding: 2rem; text-align: left;
+    transition: all 0.35s; position: relative; overflow: hidden;
+  }
+  .review-card::before {
+    content: '"'; font-family: 'Playfair Display', serif;
+    font-size: 6rem; color: rgba(201,168,76,0.06);
+    position: absolute; top: -10px; left: 10px; line-height: 1;
+  }
+  .review-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-4px); }
+  .review-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 1rem; }
+  .review-text { font-size: 0.95rem; color: rgba(245,240,255,0.7); line-height: 1.8; margin-bottom: 1.5rem; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 0.75rem; }
+  .reviewer-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--gold-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem; color: #fff; flex-shrink: 0;
+  }
+  .reviewer-name { font-weight: 700; font-size: 0.9rem; color: var(--gold-light); }
+  .reviewer-loc { font-size: 0.75rem; color: rgba(245,240,255,0.4); }
+  .rating-overall {
+    margin: 3rem auto 0; max-width: 300px;
+    background: var(--dark2); border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 20px; padding: 2rem; text-align: center;
+  }
+  .rating-big { font-size: 4rem; font-weight: 700; color: var(--gold); line-height: 1; }
+  .rating-label { font-size: 0.75rem; letter-spacing: 2px; color: rgba(245,240,255,0.5); text-transform: uppercase; margin-top: 0.5rem; }
+
+  /* CONTACT */
+  #contact { background: var(--dark2); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1100px; margin: 0 auto; }
+  .contact-info { }
+  .contact-info p { color: rgba(245,240,255,0.65); line-height: 1.9; font-size: 1rem; margin-bottom: 2rem; }
+  .contact-items { display: flex; flex-direction: column; gap: 1.25rem; }
+  .contact-item {
+    display: flex; gap: 1rem; align-items: center;
+    padding: 1.25rem; background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.1); border-radius: 14px;
+  }
+  .contact-item-icon { font-size: 1.5rem; }
+  .contact-item-text h4 { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.25rem; }
+  .contact-item-text p { font-size: 0.95rem; color: var(--text-light); }
+  .contact-form { background: var(--dark); border: 1px solid rgba(201,168,76,0.15); border-radius: 24px; padding: 2.5rem; }
+  .contact-form h3 { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--gold-light); margin-bottom: 1.5rem; }
+  .social-links { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+  .social-link {
+    padding: 10px 20px; border-radius: 50px;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+    transition: all 0.3s; display: flex; align-items: center; gap: 6px;
+  }
+  .social-link:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 3rem 5%; text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Dancing Script', cursive; font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--purple-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+  .footer-tagline { color: var(--gold); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .footer-nav { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin-bottom: 2rem; }
+  .footer-nav a { color: rgba(245,240,255,0.4); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+  .footer-nav a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.78rem; color: rgba(245,240,255,0.25); }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+  @keyframes sparkle {
+    0%, 100% { opacity: 0.3; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.8; transform: scale(1.3) rotate(45deg); }
+  }
+
+  /* FADE IN ON SCROLL */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media(max-width: 900px) {
+    .about-grid, .catering-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-float { bottom: -10px; right: 0; }
+  }
+  @media(max-width: 600px) {
+    section { padding: 70px 5%; }
+    .form-row { grid-template-columns: 1fr; }
+    .about-img-box { font-size: 5rem; }
+  }
+
+  /* TRUCK TRACKER BANNER */
+  .truck-banner {
+    background: linear-gradient(135deg, var(--purple-dark), var(--purple));
+    text-align: center; padding: 14px 5%;
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .truck-banner span { color: var(--gold-light); }
+</style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div style="background:linear-gradient(135deg,#2a1a00,#3d2800);text-align:center;padding:9px 5%;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid rgba(201,168,76,0.4);display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+  <span style="background:linear-gradient(135deg,#C9A84C,#E8C96A);color:#000;font-weight:800;padding:3px 12px;border-radius:50px;font-size:0.72rem;letter-spacing:2px;">⚠ DEMO</span>
+  <span style="color:rgba(245,240,255,0.55);">This is a demo website created for client preview purposes only — content is not final.</span>
+</div>
+
+<!-- TOP BANNER -->
+<div class="truck-banner">
+  🚚 <span>TODAY'S LOCATION:</span> Downtown Main Street — Open 11AM–8PM · Follow us for daily updates!
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">LadyD's</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#catering">Catering</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="hero-bg-text">LadyD</div>
+  <div>
+    <div class="hero-badge">✦ Food Truck ✦ Karachi & Beyond ✦</div>
+    <h1 class="hero-title">LadyD's</h1>
+    <p class="hero-sub">With a Taste of Love</p>
+    <p class="hero-desc">Handcrafted comfort food made with soul, served with a smile. Every bite tells a story of love, culture, and unforgettable flavor.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-gold">View Our Menu</a>
+      <a href="#catering" class="btn-outline">Book Catering</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-image-wrap reveal">
+      <div class="about-img-box">
+        👩🏾‍🍳
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 80%,rgba(201,168,76,0.15),transparent);"></div>
+      </div>
+      <div class="about-float">
+        <span class="num">10+</span>
+        <span class="txt">YEARS OF LOVE</span>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">Cooking With Heart Since Day One</h2>
+      <div class="section-divider"></div>
+      <p>LadyD's was born from a lifelong passion for bringing people together through food. Every recipe is a family secret, passed down with pride and perfected with love — from our kitchen to your plate.</p>
+      <p>We roll our truck through the streets not just to feed you, but to give you an experience. Warm food, warm hearts, and a community built around the table.</p>
+      <p>Whether it's a quick lunch on the go or a full catering event, we pour the same amount of love into every dish we serve.</p>
+      <div class="about-pills">
+        <span class="pill">🏡 Family Recipes</span>
+        <span class="pill">🌿 Fresh Ingredients</span>
+        <span class="pill">💜 Made with Love</span>
+        <span class="pill">🏆 Award-Winning Flavors</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header reveal">
+    <p class="section-label">What We Serve</p>
+    <h2 class="section-title">Our Signature Menu</h2>
+    <div class="section-divider"></div>
+    <p style="color:rgba(245,240,255,0.6);line-height:1.8;">Made fresh daily with premium ingredients and generational recipes that keep our customers coming back for more.</p>
+  </div>
+
+  <div class="menu-tabs">
+    <button class="tab active" onclick="showMenu('mains', this)">Main Dishes</button>
+    <button class="tab" onclick="showMenu('sides', this)">Sides & Extras</button>
+    <button class="tab" onclick="showMenu('drinks', this)">Drinks</button>
+    <button class="tab" onclick="showMenu('desserts', this)">Desserts</button>
+  </div>
+
+  <div class="menu-panel active" id="mains">
+    <div class="menu-card reveal">
+      <div class="menu-card-top">🍗</div>
+      <div class="menu-card-body">
+        <span class="menu-badge">⭐ Fan Fave</span>
+        <h3>LadyD's Smothered Chicken</h3>
+        <p>Slow-cooked chicken thighs in a rich, savory gravy with caramelized onions. Served over fluffy white rice.</p>
+        <span class="menu-price">$14.99</span>
+      </div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="menu-card-top">🥩</div>
+      <div class="menu-card-body">
+        <h3>BBQ Brisket Plate</h3>
+        <p>Slow-smoked brisket with our signature house-made BBQ sauce, crispy fries, and coleslaw on the side.</p>
+        <span class="menu-price">$16.99</span>
+      </div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="menu-card-top">🦐</div>
+      <div class="menu-card-body">
+        <span class="menu-badge">New</span>
+        <h3>Cajun Shrimp Bowl</h3>
+        <p>Jumbo shrimp tossed in bold Cajun spices over seasoned rice with corn, peppers, and a squeeze of lime.</p>
+        <span class="menu-price">$15.99</span>
+      </div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="menu-card-top">🍖</div>
+      <div class="menu-card-body">
+        <h3>Oxtail Sunday Special</h3>
+        <p>Tender braised oxtail cooked low and slow with butter beans in a rich, dark sauce. Soul food at its finest.</p>
+        <span class="menu-price">$18.99</span>
+      </div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="menu-card-top">🌮</div>
+      <div class="menu-card-body">
+        <h3>Love Tacos (3-Pack)</h3>
+        <p>Three soft tortillas filled with your choice of protein, topped with fresh pico de gallo and LadyD's special sauce.</p>
+        <span class="menu-price">$12.99</span>
+      </div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="menu-card-top">🍝</div>
+      <div class="menu-card-body">
+        <h3>Mama's Mac & Cheese Platter</h3>
+        <p>Creamy five-cheese baked mac with a golden breadcrumb crust. The ultimate comfort food experience.</p>
+        <span class="menu-price">$13.99</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="sides">
+    <div class="menu-card reveal"><div class="menu-card-top">🌽</div><div class="menu-card-body"><h3>Street Corn</h3><p>Grilled corn on the cob with cotija cheese, chili powder, and lime crema.</p><span class="menu-price">$4.99</span></div></div>
+    <div class="menu-card reveal"><div class="menu-card-top">🍠</div><div class="menu-card-body"><h3>Candied Sweet Potatoes</h3><p>Brown sugar glazed sweet potatoes with a hint of cinnamon and nutmeg.</p><span class="menu-price">$4.99</span></div></div>
+    <div class="menu-card reveal"><div class="menu-card-top">🥗</div><div class="menu-card-body"><h3>Collard Greens</h3><p>Slow-simmered collard greens cooked with smoked turkey for deep, rich flavor.</p><span class="menu-price">$4.99</span></div></div>
+    <div class="menu-card reveal"><div class="menu-card-top">🍞</div><div class="menu-card-body"><span class="menu-badge">⭐ Fan Fave</span><h3>Cornbread Muffins</h3><p>Fluffy, golden cornbread muffins made from scratch. Perfect with anything on the menu.</p><span class="menu-price">$3.99</span></div></div>
+  </div>
+
+  <div class="menu-panel" id="drinks">
+    <div class="menu-card reveal"><div class="menu-card-top">🍹</div><div class="menu-card-body"><h3>Hibiscus Lemonade</h3><p>Fresh-squeezed lemonade blended with floral hibiscus for a stunning pink refresher.</p><span class="menu-price">$3.99</span></div></div>
+    <div class="menu-card reveal"><div class="menu-card-top">🧃</div><div class="menu-card-body"><span class="menu-badge">New</span><h3>Mango Ginger Fizz</h3><p>Tropical mango juice with a spicy ginger kick, topped with sparkling water.</p><span class="menu-price">$4.49</span></div></div>
+    <div class="menu-card reveal"><div class="menu-card-top">☕</div><div class="menu-card-body"><h3>Sweet Tea</h3><p>Classic Southern-style sweet tea, brewed strong and served over ice.</p><span class="menu-price">$2.99</span></div></div>
+  </div>
+
+  <div class="menu-panel" id="desserts">
+    <div class="menu-card reveal"><div class="menu-card-top">🍰</div><div class="menu-card-body"><span class="menu-badge">⭐ Fan Fave</span><h3>Sweet Potato Pie</h3><p>Silky sweet potato filling in a buttery flaky crust. Grandma's recipe, perfected.</p><span class="menu-price">$5.99</span></div></div>
+    <div class="menu-card reveal"><div class="menu-card-top">🍩</div><div class="menu-card-body"><h3>Beignets (6-Pack)</h3><p>Light, airy fried dough dusted generously with powdered sugar. Served warm.</p><span class="menu-price">$6.99</span></div></div>
+    <div class="menu-card reveal"><div class="menu-card-top">🍫</div><div class="menu-card-body"><h3>Love Brownie</h3><p>Dense fudgy chocolate brownie with a salted caramel drizzle and crushed pecans.</p><span class="menu-price">$4.49</span></div></div>
+  </div>
+</section>
+
+<!-- CATERING -->
+<section id="catering">
+  <div class="catering-grid">
+    <div class="reveal">
+      <p class="section-label">Bring the Love to You</p>
+      <h2 class="section-title">Catering & Events</h2>
+      <div class="section-divider"></div>
+      <p style="color:rgba(245,240,255,0.65);line-height:1.9;margin-bottom:1rem;">From birthday parties to corporate luncheons and weddings — LadyD's brings the food truck experience directly to your event, making every occasion unforgettable.</p>
+      <div class="catering-features">
+        <div class="feat"><div class="feat-icon">🎉</div><div class="feat-text"><h4>Private Events</h4><p>Birthdays, baby showers, graduations, block parties — we do it all with style.</p></div></div>
+        <div class="feat"><div class="feat-icon">🏢</div><div class="feat-text"><h4>Corporate Catering</h4><p>Team lunches, company events, and office gatherings served fresh and on time.</p></div></div>
+        <div class="feat"><div class="feat-icon">💍</div><div class="feat-text"><h4>Weddings & Special Occasions</h4><p>Custom menus designed to match your theme and delight every guest.</p></div></div>
+        <div class="feat"><div class="feat-icon">📋</div><div class="feat-text"><h4>Custom Menus Available</h4><p>Work with Lady D personally to craft a menu tailored to your preferences.</p></div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="catering-form-card">
+        <h3>Request a Quote</h3>
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" placeholder="Lady"></div>
+          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Johnson"></div>
+        </div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+1 (555) 000-0000"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Event Type</label>
+            <select>
+              <option>Select event type</option>
+              <option>Birthday Party</option>
+              <option>Corporate Event</option>
+              <option>Wedding</option>
+              <option>Baby Shower</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Guest Count</label>
+            <select>
+              <option>Approx. guests</option>
+              <option>Under 25</option>
+              <option>25–50</option>
+              <option>50–100</option>
+              <option>100–200</option>
+              <option>200+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Event Date</label><input type="date"></div>
+        <div class="form-group"><label>Tell Us About Your Event</label><textarea placeholder="Share details about your event, dietary needs, or any special requests..."></textarea></div>
+        <button class="btn-gold" style="width:100%;padding:16px;font-size:1rem;" onclick="alert('Thank you! LadyD will be in touch with love 💜')">Send My Request ✦</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-header reveal">
+    <p class="section-label">What People Say</p>
+    <h2 class="section-title">Reviews From Our Family</h2>
+    <div class="section-divider"></div>
+    <div class="stars">★★★★★</div>
+    <p style="color:rgba(245,240,255,0.6);">Hundreds of happy customers, one common word: love.</p>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">The smothered chicken had me calling my mom to say sorry for thinking hers was the best. LadyD just took the crown. Absolutely incredible.</p>
+      <div class="reviewer"><div class="reviewer-avatar">T</div><div><div class="reviewer-name">Tasha M.</div><div class="reviewer-loc">Google Reviews</div></div></div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">We hired LadyD's for our company lunch and every single person went back for seconds. The catering service was professional and the food was 10/10.</p>
+      <div class="reviewer"><div class="reviewer-avatar">D</div><div><div class="reviewer-name">David R.</div><div class="reviewer-loc">Yelp</div></div></div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">The oxtail is something special. You can taste the love in every bite. I make it a point to find this truck every Sunday. No regrets, ever.</p>
+      <div class="reviewer"><div class="reviewer-avatar">M</div><div><div class="reviewer-name">Michelle K.</div><div class="reviewer-loc">Facebook</div></div></div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">LadyD catered my daughter's birthday and absolutely nailed it. She customized the whole menu and went above and beyond. Will definitely book again!</p>
+      <div class="reviewer"><div class="reviewer-avatar">J</div><div><div class="reviewer-name">James & Sandra W.</div><div class="reviewer-loc">Google Reviews</div></div></div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Best food truck in the city, hands down. The sweet potato pie alone is worth chasing this truck across town. So good it should be illegal.</p>
+      <div class="reviewer"><div class="reviewer-avatar">A</div><div><div class="reviewer-name">Angela P.</div><div class="reviewer-loc">Yelp</div></div></div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">I brought a friend who was skeptical about food trucks. After one bite of the Cajun shrimp bowl, she was completely sold. Now she asks about LadyD's every week!</p>
+      <div class="reviewer"><div class="reviewer-avatar">K</div><div><div class="reviewer-name">Keisha L.</div><div class="reviewer-loc">Instagram</div></div></div>
+    </div>
+  </div>
+  <div class="rating-overall reveal">
+    <div class="rating-big">4.9</div>
+    <div class="stars" style="font-size:1rem;margin:0.5rem 0;">★★★★★</div>
+    <div class="rating-label">Based on 200+ Reviews</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <p class="section-label">Get in Touch</p>
+      <h2 class="section-title">Find the Truck</h2>
+      <div class="section-divider"></div>
+      <p>Follow us on social media for our daily location updates and specials. We're always near you — just look for the golden truck!</p>
+      <div class="contact-items">
+        <div class="contact-item"><div class="contact-item-icon">📍</div><div class="contact-item-text"><h4>Primary Area</h4><p>Downtown & Midtown District</p></div></div>
+        <div class="contact-item"><div class="contact-item-icon">🕐</div><div class="contact-item-text"><h4>Hours</h4><p>Mon–Fri: 11AM – 8PM · Sat–Sun: 11AM – 9PM</p></div></div>
+        <div class="contact-item"><div class="contact-item-icon">📞</div><div class="contact-item-text"><h4>Phone</h4><p>(555) 123-4567</p></div></div>
+        <div class="contact-item"><div class="contact-item-icon">✉️</div><div class="contact-item-text"><h4>Email</h4><p>hello@ladydstasteoflove.com</p></div></div>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-link">📸 Instagram</a>
+        <a href="#" class="social-link">📘 Facebook</a>
+        <a href="#" class="social-link">🎵 TikTok</a>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="contact-form">
+        <h3>Send Us a Message</h3>
+        <div class="form-group"><label>Your Name</label><input type="text" placeholder="Your full name"></div>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+        <div class="form-group"><label>Subject</label><input type="text" placeholder="What's this about?"></div>
+        <div class="form-group"><label>Message</label><textarea style="min-height:120px" placeholder="Say hello, ask a question, or share the love..."></textarea></div>
+        <button class="btn-gold" style="width:100%;padding:15px;font-size:0.95rem;" onclick="alert('Message sent! LadyD will respond with love 💜✨')">Send Message ✦</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">LadyD's</div>
+  <div class="footer-tagline">With a Taste of Love</div>
+  <nav class="footer-nav">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#catering">Catering</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <p class="footer-copy">© 2025 LadyD's With a Taste of Love. All rights reserved. Made with 💜 & ✨</p>
+</footer>
+
+<script>
+  // Hamburger
+  const ham = document.getElementById('hamburger');
+  const nav = document.getElementById('navLinks');
+  ham.addEventListener('click', () => nav.classList.toggle('open'));
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+
+  // Menu tabs
+  function showMenu(id, btn) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
